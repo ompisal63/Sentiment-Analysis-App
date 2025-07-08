@@ -1,18 +1,23 @@
 import streamlit as st
 import pickle
 
-st.title("🎉 Sentiment Analysis App")
-
-# Load your trained model
+# Load model + vectorizer
 model = pickle.load(open('sentiment_model.pkl', 'rb'))
+vectorizer = pickle.load(open('vectorizer.pkl', 'rb'))
 
-# Input box
-user_input = st.text_area("✍️ Enter your text:")
+# Streamlit config
+st.set_page_config(page_title="Sentiment Analyzer", page_icon="💬", layout="centered")
+st.title("Sentiment Analysis App")
 
-# Button
-if st.button("🔍 Analyze Sentiment"):
-    if user_input.strip() == "":
-        st.warning("Please enter some text!")
+# Text input
+user_input = st.text_area("Enter your text:")
+
+if st.button("Analyze"):
+    if user_input:
+        # Transform input
+        input_vec = vectorizer.transform([user_input])
+        prediction = model.predict(input_vec)[0]
+        st.write(f"**Sentiment:** {prediction.capitalize()}")
     else:
-        prediction = model.predict([user_input])[0]
-        st.success(f"**Sentiment:** `{prediction.upper()}` ✅")
+        st.write("Please enter some text!")
+
