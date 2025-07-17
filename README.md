@@ -12,4 +12,4 @@ It uses a trained machine learning model to predict if your text is **Positive**
 
 ---
 
-**Built with by [OM PISAL]**
+**Built with Streamlit by OM PISAL**
